@@ -1,0 +1,90 @@
+[gd_scene load_steps=3 format=3 uid="uid://w7bd7rlk0wbx"]
+
+[ext_resource type="Theme" uid="uid://bu4rq474a7305" path="res://custom_theme.tres" id="1_0umre"]
+[ext_resource type="Script" path="res://Scripts/options.gd" id="1_hmlij"]
+
+[node name="Options" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_hmlij")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -96.0
+offset_right = 60.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Music_Toggle" type="CheckBox" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/h_separation = 15
+theme_override_constants/outline_size = 2
+text = "MUSIC"
+flat = true
+
+[node name="Music_Vol_Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "Music Volume"
+uppercase = true
+
+[node name="Music_Vol_Slider" type="HSlider" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+max_value = 1.0
+step = 0.1
+value = 0.5
+
+[node name="Game_Vol_Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "Game Volume"
+uppercase = true
+
+[node name="Game_Vol_Slider" type="HSlider" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+max_value = 1.0
+step = 0.1
+value = 0.5
+
+[node name="Back" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_0umre")
+text = "BACK TO MENU"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1000.0
+offset_top = -500.0
+offset_right = 920.0
+offset_bottom = 580.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.212897, 0.272906, 0.394313, 1)
+
+[connection signal="toggled" from="MarginContainer/VBoxContainer/Music_Toggle" to="." method="_on_music_toggle_toggled"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/Music_Vol_Slider" to="." method="_on_music_vol_slider_value_changed"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/Game_Vol_Slider" to="." method="_on_game_vol_slider_value_changed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Back" to="." method="_on_back_pressed"]

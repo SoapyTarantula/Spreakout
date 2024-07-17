@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://c6lkl0i0ke8h8"]
+
+[ext_resource type="Script" path="res://Scripts/block.gd" id="1_84whu"]
+[ext_resource type="Texture2D" uid="uid://jqy584ym378h" path="res://Assets/Sprites/block.png" id="2_rm148"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ymsal"]
+size = Vector2(106.667, 106.667)
+
+[sub_resource type="Curve" id="Curve_spq72"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.505494), -0.567884, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_o4nxi"]
+offsets = PackedFloat32Array(0.446667, 0.98)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0.290196)
+
+[node name="Block" type="RigidBody2D" groups=["Block", "Persist"]]
+gravity_scale = 0.0
+script = ExtResource("1_84whu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(0.15, 0.15)
+shape = SubResource("RectangleShape2D_ymsal")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_rm148")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 15
+lifetime = 0.25
+one_shot = true
+explosiveness = 0.15
+emission_shape = 1
+emission_sphere_radius = 10.0
+gravity = Vector2(0, -600)
+angle_min = -90.0
+angle_max = 90.0
+scale_amount_curve = SubResource("Curve_spq72")
+color_ramp = SubResource("Gradient_o4nxi")

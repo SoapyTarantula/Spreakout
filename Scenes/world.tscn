@@ -1,0 +1,88 @@
+[gd_scene load_steps=10 format=3 uid="uid://dpmnxeafudedy"]
+
+[ext_resource type="PackedScene" uid="uid://03ymca6xhyvs" path="res://Scenes/paddle.tscn" id="1_6n137"]
+[ext_resource type="Script" path="res://Scripts/world.gd" id="1_ofgpr"]
+[ext_resource type="PackedScene" uid="uid://dfdwtudcf7x4m" path="res://Scenes/ui.tscn" id="2_pxohw"]
+[ext_resource type="PackedScene" uid="uid://cshcdw11oucbb" path="res://Scenes/ball.tscn" id="3_cknow"]
+[ext_resource type="AudioStream" uid="uid://bayr5blm4sr32" path="res://Assets/Sounds/success.ogg" id="5_phgl6"]
+[ext_resource type="Script" path="res://Scripts/SaverLoader.gd" id="6_ae0nj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5aq6f"]
+size = Vector2(15, 400)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7aulu"]
+size = Vector2(720, 2)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4ronk"]
+size = Vector2(720, 5)
+
+[node name="World" type="Node2D" groups=["Persist"]]
+script = ExtResource("1_ofgpr")
+
+[node name="UI" parent="." instance=ExtResource("2_pxohw")]
+offset_left = 8.0
+offset_top = 336.0
+offset_right = 8.0
+offset_bottom = 336.0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+zoom = Vector2(2, 2)
+
+[node name="Paddle" parent="." groups=["Paddle"] instance=ExtResource("1_6n137")]
+unique_name_in_owner = true
+position = Vector2(347, 350)
+speed = 400
+starting_position = Vector2(350, 350)
+
+[node name="Ball" parent="." groups=["Ball"] instance=ExtResource("3_cknow")]
+position = Vector2(448, 232)
+motion_mode = 1
+
+[node name="Bounds" type="Node" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Bounds"]
+
+[node name="WallLeft" type="CollisionShape2D" parent="Bounds/StaticBody2D"]
+position = Vector2(-8, 184)
+shape = SubResource("RectangleShape2D_5aq6f")
+
+[node name="WallRight" type="CollisionShape2D" parent="Bounds/StaticBody2D"]
+position = Vector2(648, 184)
+shape = SubResource("RectangleShape2D_5aq6f")
+
+[node name="Ceiling" type="CollisionShape2D" parent="Bounds/StaticBody2D"]
+position = Vector2(320, 0)
+shape = SubResource("RectangleShape2D_7aulu")
+
+[node name="Bottom" type="Area2D" parent="Bounds"]
+position = Vector2(320, 360)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bounds/Bottom"]
+position = Vector2(0, 24)
+shape = SubResource("RectangleShape2D_4ronk")
+
+[node name="Sounds" type="Node" parent="."]
+
+[node name="success" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("5_phgl6")
+
+[node name="SaverLoader" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("6_ae0nj")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1000.0
+offset_top = -500.0
+offset_right = 920.0
+offset_bottom = 580.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.212897, 0.272906, 0.394313, 1)
+
+[connection signal="body_entered" from="Bounds/Bottom" to="Ball" method="_on_bottom_body_entered"]

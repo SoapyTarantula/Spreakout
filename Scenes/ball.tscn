@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3 uid="uid://cshcdw11oucbb"]
+
+[ext_resource type="Script" path="res://Scripts/Ball.gd" id="1_mebik"]
+[ext_resource type="Texture2D" uid="uid://d26lg0cp6oydd" path="res://Assets/Sprites/Ball.png" id="2_5jb8b"]
+[ext_resource type="AudioStream" uid="uid://dql2bb4726id2" path="res://Assets/Sounds/bounce.ogg" id="3_us81b"]
+[ext_resource type="AudioStream" uid="uid://ido2go4f20pp" path="res://Assets/Sounds/fail.ogg" id="4_dpxnm"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_j0ni7"]
+radius = 4.12311
+
+[sub_resource type="Gradient" id="Gradient_8gmb5"]
+colors = PackedColorArray(0.292367, 0.748095, 0.842968, 1, 0, 0, 0, 0)
+
+[node name="Ball" type="CharacterBody2D"]
+script = ExtResource("1_mebik")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_5jb8b")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_j0ni7")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+amount = 25
+lifetime = 0.25
+emission_shape = 1
+emission_sphere_radius = 4.0
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_8gmb5")
+
+[node name="bounce_sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_us81b")
+
+[node name="fail" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_dpxnm")
